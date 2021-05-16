@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"skywalkerai.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="You can’t manage what you don’t measure. - Peter Drucker 你如果无法度量它，就无法管理它。 这是现代管理学之父，彼得·德鲁克的一句名言。项目管理、敏捷开发的前提，还是需要把数据串起来，进行可视化、数据化，这样才能看到它，管理它。 本文将以公司SaaS产品为例，介绍下“小团队”是如何进行敏捷研发的落地的。 为什么要实施  需求的进展不透明，不知">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小团队如何落地敏捷开发">
+<meta property="og:url" content="https://skywalkerai.com/2020/11/11/%E5%B0%8F%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="天行者YANG - BLOG">
+<meta property="og:description" content="You can’t manage what you don’t measure. - Peter Drucker 你如果无法度量它，就无法管理它。 这是现代管理学之父，彼得·德鲁克的一句名言。项目管理、敏捷开发的前提，还是需要把数据串起来，进行可视化、数据化，这样才能看到它，管理它。 本文将以公司SaaS产品为例，介绍下“小团队”是如何进行敏捷研发的落地的。 为什么要实施  需求的进展不透明，不知">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-01.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-02.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-03.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-04.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-05.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/prd-01.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/prd-02.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-06.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-07.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-08.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-09.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-10.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-11.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-12.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/kanban-13.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/test-report-01.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-11/test-report-02.jpg">
+<meta property="article:published_time" content="2020-11-11T06:06:02.000Z">
+<meta property="article:modified_time" content="2021-03-26T04:01:46.985Z">
+<meta property="article:author" content="天行者YANG">
+<meta property="article:tag" content="敏捷">
+<meta property="article:tag" content="看板">
+<meta property="article:tag" content="JIRA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skywalkerai.com/images/2020-11/kanban-01.jpg">
+
+<link rel="canonical" href="https://skywalkerai.com/2020/11/11/%E5%B0%8F%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>小团队如何落地敏捷开发 | 天行者YANG - BLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">天行者YANG - BLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/11/11/%E5%B0%8F%E5%9B%A2%E9%98%9F%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          小团队如何落地敏捷开发
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-11 14:06:02" itemprop="dateCreated datePublished" datetime="2020-11-11T14:06:02+08:00">2020-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>You can’t manage what you don’t measure. - Peter Drucker</p>
+<p>你如果无法度量它，就无法管理它。</p>
+<p>这是现代管理学之父，彼得·德鲁克的一句名言。项目管理、敏捷开发的前提，还是需要把数据串起来，进行可视化、数据化，这样才能看到它，管理它。</p>
+<p>本文将以公司SaaS产品为例，介绍下“小团队”是如何进行敏捷研发的落地的。</p>
+<h1 id="为什么要实施"><a href="#为什么要实施" class="headerlink" title="为什么要实施"></a>为什么要实施</h1><hr>
+<ul>
+<li>需求的进展不透明，不知道现在到哪里了</li>
+<li>需求延期发布成为了家常便饭，不知道什么时候会发布上线</li>
+<li>需求发布上线后，心里总是忐忑不安，不知道什么时候会出现问题和故障</li>
+<li>团队沟通成本太高，经常性出现RD、FE、QA、PM信息不一致</li>
+<li>需求插入随意、频繁，不计成本</li>
+<li>不清楚，研发团队的工作量，是正常、超负荷、还是有人不饱和</li>
+</ul>
+<p>在互联网初创公司里，需求和有限的资源，永远是矛盾命题，如何在矛盾中寻找平衡，把有限的资源专注于符合公司战略的需求，保持团队的节奏和良好的情绪，就是要实施敏捷管理的痛点，也是我们为什么要实施，敏捷管理也可以很好的回答上面出现的各种问题，给出答案。</p>
+<h1 id="使用的工具"><a href="#使用的工具" class="headerlink" title="使用的工具"></a>使用的工具</h1><hr>
+<p>下面是我们所使用的工具，Confluence主要是知识库和文档的汇集，JIRA是项目管理工具和BUG管理工具，下面是之前写的如何搭建这些工具的文章，大家可以参考</p>
+<h2 id="✔️Atlassian-Confluence"><a href="#✔️Atlassian-Confluence" class="headerlink" title="✔️Atlassian Confluence"></a>✔️Atlassian Confluence</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bda2638fdbc2">创业公司基础设施如何搭建（三） – Confluence（Docker版本）</a></p>
+<h2 id="✔️Atlassian-Jira"><a href="#✔️Atlassian-Jira" class="headerlink" title="✔️Atlassian Jira"></a>✔️Atlassian Jira</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/093cf14361ed">创业公司基础设施如何搭建（四） – Jira（Docker版本）</a></p>
+<h1 id="如何做好这件事情"><a href="#如何做好这件事情" class="headerlink" title="如何做好这件事情"></a>如何做好这件事情</h1><hr>
+<p>需求评审 ➡️ 设计评审 ➡️ 研发实现 ➡️ 测试 ➡️ 验收 ➡️ 发布 ➡️ 后评估</p>
+<p>为了让产品和研发过程可视化，更加可控，信息互通，我们采用<strong>4个看板</strong>模型进行敏捷管理实践，看板名称和功能如下：</p>
+<blockquote>
+<p>公开需求看板（Kanban Board）</p>
+</blockquote>
+<hr>
+<p>通过「看板」建立一个公开需求池，向跨部门成员广泛收集需求，一切市场反馈及时传递到位。看板类型为Kanban Board。</p>
+<p><img src="/images/2020-11/kanban-01.jpg"></p>
+<blockquote>
+<p>需求看板（Kanban Board）</p>
+</blockquote>
+<hr>
+<p>为需求生命周期搭建流程，按「Backlog - 评审 - 排期 - 设计 - 开发 - 发布」设立多个阶段，需求流转可视化。<br><img src="/images/2020-11/kanban-02.jpg"></p>
+<blockquote>
+<p>任务效能看板（Scrum Board）</p>
+</blockquote>
+<hr>
+<p>为需求预设好发版时间，所有人都可以及时预知逾期风险；产品、开发和需求提出者随时发起沟通，及时同步需求变化或者开发进展。<br><img src="/images/2020-11/kanban-03.jpg"></p>
+<blockquote>
+<p>BUG看板（Kanban Board）</p>
+</blockquote>
+<hr>
+<p>通过看板查询，迭代中的各种类型的BUG数量情况，清楚明了。<br><img src="/images/2020-11/kanban-04.jpg"></p>
+<h1 id="公开需求管理"><a href="#公开需求管理" class="headerlink" title="公开需求管理"></a>公开需求管理</h1><hr>
+<p>公司属于教育类SaaS，其公开需求主要来源有下面几类：</p>
+<ul>
+<li>重要客户（学校）</li>
+<li>用户日常使用反馈（教师、学生、家长）</li>
+<li>销售渠道</li>
+</ul>
+<p>甄别和过滤伪需求和次要或者不符合战略的需求，在这里进行，但是“业务方”提出的众多的需求如何管理，也是一件头疼的事情，这里主要流程发生有下列几种：</p>
+<ul>
+<li><strong>用户使用体验  ➡️ 客户成功同学  ➡️ 记录问题  ➡️ 反馈处理结果</strong></li>
+<li><strong>大客户需求</strong>  <strong>➡️ 客户成功同学  ➡️ 记录问题  ➡️ 反馈处理结果</strong></li>
+</ul>
+<p>客户成功同学、销售同学或者其他干系人，都可以在这个看板内，提交原始需求问题，产品同学会过滤、调研，转化为产品需求，到产品需求池内，下面是**<em>公开需求看板**</em>，卡片的内容主要包含了：需求描述、问题类型、解决状态、经办人</p>
+<p><img src="/images/2020-11/kanban-05.jpg"></p>
+<ul>
+<li>判断价值很低或者肯定不会做的需求，直接拖到已完成</li>
+<li>判断有一定价值或需要在分析的需求，拖到调研讨论，最终确定后，再拖到已完成</li>
+</ul>
+<h1 id="产品研发需求管理"><a href="#产品研发需求管理" class="headerlink" title="产品研发需求管理"></a>产品研发需求管理</h1><hr>
+<blockquote>
+<p>需求分类</p>
+</blockquote>
+<hr>
+<p>产品研发内部，我们把需求分成2类：</p>
+<ul>
+<li>产品需求：PM提出的迭代、紧急、日常类需求</li>
+<li>技术需求：研发内部为了稳定性、扩展性、维护性而进行的技术重构类需求</li>
+</ul>
+<blockquote>
+<p>需求等级</p>
+</blockquote>
+<hr>
+<p>古语云：师出有名，需求的提出也是如此，为了让研发同学知道需求的重要和紧急程度，需求等级划分是特别需要的一件事情。</p>
+<ul>
+<li><p>产品需求等级划分</p>
+<p>  P0：紧急任务，必须穷尽所能，最短时间完成；可以调人支援，可以停止其他项目，需要加班</p>
+<p>  P1：非常重要任务，有Deadline，并且不可以Delay；如遇到P0，那么就需要加班保证P1的Deadline</p>
+<p>  P2：重要、有影响力的任务，有Deadline，如遇到P0和P1，可以顺延（应该是大部分任务）</p>
+<p>  P3：锦上添花的正常任务，优先级最低</p>
+</li>
+<li><p>技术需求等级划分</p>
+<p>  T0：重大性能和漏洞，需要加班加点进行修复</p>
+<p>  T1：扩展性和性能风险问题，一般是单独任务进行修复</p>
+<p>  T2：设计或者一般性能缺陷，一般是随着迭代进行相关改进</p>
+</li>
+</ul>
+<blockquote>
+<p>产品需求管理（需求看板）</p>
+</blockquote>
+<hr>
+<p>PM和研发同学，通过PRD的方式进行沟通和交流，研发同学最终也是通过PRD进行开发、测试工作，所以第一步是需要创建PRD，PRD的管理方式采用相对灵活的方式，PM写PRD的工具有的是蓝湖，有的墨刀，我们这里为了统一归档，在Confluence做了归档的统一管理（PRD的详细链接可以是任何工具的链接）， 在Confluence创建时选择模板创建，见下图：<br><img src="/images/2020-11/prd-01.jpg"></p>
+<p><img src="/images/2020-11/prd-02.jpg"></p>
+<p>主要包含了</p>
+<ul>
+<li><p>背景描述</p>
+</li>
+<li><p>业务目标的描述</p>
+</li>
+<li><p>需求链接和功能列表（即Story）</p>
+<p>  <strong><em>需求看板</em></strong>的泳道有P0、P1、P1以下、技术需求的4个泳道，为了便于搜索，在快捷搜索列加入了常用的搜索关键词，卡片主要包含：需求等级、到期日、需求负责人<br><img src="/images/2020-11/kanban-06.jpg"></p>
+</li>
+</ul>
+<blockquote>
+<p>技术需求管理（需求看板）</p>
+</blockquote>
+<p>类似数据结构的变更、技术架构的改进，比如：更换配置中心为Apollo，这类需要简称技术需求，其数据显示和看板功能，和产品需求基本一致，也显示在 <strong><em>需求看板</em></strong> 内，看板如下：<br><img src="/images/2020-11/kanban-07.jpg"></p>
+<h1 id="技术任务管理（任务效能看板）"><a href="#技术任务管理（任务效能看板）" class="headerlink" title="技术任务管理（任务效能看板）"></a>技术任务管理（任务效能看板）</h1><p>这个阶段，主要是从需求阶段进入到了研发阶段，这个阶段主要包含如下类型的任务：</p>
+<ul>
+<li>开发任务：RD、FE</li>
+<li>开发自测：RD、FE</li>
+<li>测试用例编写：QA</li>
+<li>测试用例执行：QA</li>
+</ul>
+<p>技术任务类型的问题，主要来源于2个方面</p>
+<ul>
+<li>产品需求</li>
+<li>技术需求</li>
+</ul>
+<p>对于此类任务管理，我们使用的看板是 <strong><em>任务效能看板</em></strong>。在开始之前，我们需要在Backlog内，拖动需要进行迭代的技术需求或产品需求，如下图：<br><img src="/images/2020-11/kanban-08.jpg"></p>
+<p>然后，以产品需求和技术需求为父任务，在 <strong><em>需求看板</em></strong>内，创建子任务，界面如下：<br><img src="/images/2020-11/kanban-09.jpg"></p>
+<p>创建好后，可以查看父子任务详情，并有工作量体现<br><img src="/images/2020-11/kanban-10.jpg"></p>
+<p>点击开始Sprint，并设置好时间，如下图：<br><img src="/images/2020-11/kanban-11.jpg"></p>
+<p>RD &amp; QA &amp; FE，在每天下班前，填写其任务的工作量即可达到任务工作量跟踪的效果，如下图：<br><img src="/images/2020-11/kanban-12.jpg"></p>
+<h1 id="测试BUG管理（BUG看板）"><a href="#测试BUG管理（BUG看板）" class="headerlink" title="测试BUG管理（BUG看板）"></a>测试BUG管理（BUG看板）</h1><hr>
+<p>在Sprint中产生的BUG都会显示在 <strong><em>BUG看板</em></strong>中，工作流主要是打开 ➡️ 处理中 ➡️ 已解决 ➡️  已关闭，如下图：<br><img src="/images/2020-11/kanban-13.jpg"></p>
+<p>我们所采用的BUG类的问题类型有以下几种：</p>
+<ul>
+<li><p>功能错误</p>
+</li>
+<li><p>界面优化</p>
+</li>
+<li><p>功能优化</p>
+</li>
+<li><p>性能问题</p>
+</li>
+<li><p>安全相关</p>
+<p>  在这个迭代结束后，测试人员，会根据BUG的统计报告数据，分析得出本次迭代的测试报告，测试报告，我们在Confluence创建了统一模板，主要内容如下：<br><img src="/images/2020-11/test-report-01.jpg"><br><img src="/images/2020-11/test-report-02.jpg"></p>
+</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><hr>
+<p>需求和效能的生命周期管理，这里仅仅是按照目前产品和团队的需求和阶段，规定了一些适合我们的方法，这个周期管理，还是需要随着人员和阶段的不同而进行不断的改造和演进的，下面是我们在JIRA和Confluence使用的一些核心流程和方法：</p>
+<ul>
+<li><p>4个看板</p>
+<p>  公开需求看板：处理市场、销售前端部门提出的“大客户需求”和“用户使用体验问题”</p>
+<p>  需求看板：主要是管理技术需求和产品需求</p>
+<p>  任务效能看板：主要是管理开发阶段，RD &amp; FE &amp; QA的任务和工作量，跟踪其任务合理性</p>
+<p>  BUG看板：主要是管理迭代内产生的5类BUG问题，功能优化 &amp; 功能错误 &amp; 界面优化 &amp; 性能问题 &amp; 安全相关</p>
+</li>
+<li><p>2个模板</p>
+<p>  产品需求模板：产品需求的管理</p>
+<p>  测试报告模块：迭代后，针对BUG和其他问题，进行的测试相关的总结</p>
+<p>  目前，敏捷相关的管理，这个阶段也仅仅是做了一小部分，还有很多实践方法，在后续的变化中，会加入和实施</p>
+<p>  敏捷管理是为了快速、稳定的交付产品而服务的，切忌不要为了追求敏捷工具的使用而耽误了实际要达成的目标。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%8F%E6%8D%B7/" rel="tag"># 敏捷</a>
+              <a href="/tags/%E7%9C%8B%E6%9D%BF/" rel="tag"># 看板</a>
+              <a href="/tags/JIRA/" rel="tag"># JIRA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/07/Jenkins%20Pipeline%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%20%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95%E5%85%B1%E4%BA%AB%E5%BA%93%E6%9E%84%E5%BB%BAMaven%E9%A1%B9%E7%9B%AE/" rel="prev" title="Jenkins Pipeline系列（二）—— 使用扩展共享库构建Maven项目">
+      <i class="fa fa-chevron-left"></i> Jenkins Pipeline系列（二）—— 使用扩展共享库构建Maven项目
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/26/Jenkins%20Pipeline%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%20%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95%E5%85%B1%E4%BA%AB%E5%BA%93%E6%9E%84%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A1%B9%E7%9B%AE/" rel="next" title="Jenkins Pipeline系列（三）—— 使用扩展共享库构建微信小程序项目">
+      Jenkins Pipeline系列（三）—— 使用扩展共享库构建微信小程序项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AE%9E%E6%96%BD"><span class="nav-number">1.</span> <span class="nav-text">为什么要实施</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">使用的工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%94%EF%B8%8FAtlassian-Confluence"><span class="nav-number">2.1.</span> <span class="nav-text">✔️Atlassian Confluence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%94%EF%B8%8FAtlassian-Jira"><span class="nav-number">2.2.</span> <span class="nav-text">✔️Atlassian Jira</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%81%9A%E5%A5%BD%E8%BF%99%E4%BB%B6%E4%BA%8B%E6%83%85"><span class="nav-number">3.</span> <span class="nav-text">如何做好这件事情</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AC%E5%BC%80%E9%9C%80%E6%B1%82%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">公开需求管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E7%A0%94%E5%8F%91%E9%9C%80%E6%B1%82%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">产品研发需求管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86%EF%BC%88%E4%BB%BB%E5%8A%A1%E6%95%88%E8%83%BD%E7%9C%8B%E6%9D%BF%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">技术任务管理（任务效能看板）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95BUG%E7%AE%A1%E7%90%86%EF%BC%88BUG%E7%9C%8B%E6%9D%BF%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">测试BUG管理（BUG看板）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="天行者YANG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">天行者YANG</p>
+  <div class="site-description" itemprop="description">技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/ffbe5419f359" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;ffbe5419f359" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://toutiao.io/subjects/199751" title="开发者头条 → https:&#x2F;&#x2F;toutiao.io&#x2F;subjects&#x2F;199751" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>开发者头条</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:michaelliu99@sina.com" title="E-Mail → mailto:michaelliu99@sina.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">天行者YANG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

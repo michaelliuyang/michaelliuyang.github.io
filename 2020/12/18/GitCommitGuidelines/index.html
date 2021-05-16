@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"skywalkerai.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="为什么需要  降低Review成本，可以明确知道本次提交的改变和影响 规范整个Team的提交习惯，对技术素养的养成有益 可以通过统一工具，抽取规范的message自动形成change log   GitHub Angular Demo 目前Github的Angular项目，就是完全采用规范的Git Message来进行日常的提交管理和发布管理的，下面是这个项目的Commit记录，和自动根据comm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git Commit Guidelines">
+<meta property="og:url" content="https://skywalkerai.com/2020/12/18/GitCommitGuidelines/index.html">
+<meta property="og:site_name" content="天行者YANG - BLOG">
+<meta property="og:description" content="为什么需要  降低Review成本，可以明确知道本次提交的改变和影响 规范整个Team的提交习惯，对技术素养的养成有益 可以通过统一工具，抽取规范的message自动形成change log   GitHub Angular Demo 目前Github的Angular项目，就是完全采用规范的Git Message来进行日常的提交管理和发布管理的，下面是这个项目的Commit记录，和自动根据comm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-12/git-commit-1.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-12/git-commit-2.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-12/git-commit-3.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-12/git-commit-4.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-12/git-commit-5.png">
+<meta property="article:published_time" content="2020-12-18T15:56:02.000Z">
+<meta property="article:modified_time" content="2021-03-26T04:01:46.983Z">
+<meta property="article:author" content="天行者YANG">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skywalkerai.com/images/2020-12/git-commit-1.png">
+
+<link rel="canonical" href="https://skywalkerai.com/2020/12/18/GitCommitGuidelines/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Git Commit Guidelines | 天行者YANG - BLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">天行者YANG - BLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/12/18/GitCommitGuidelines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git Commit Guidelines
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-18 23:56:02" itemprop="dateCreated datePublished" datetime="2020-12-18T23:56:02+08:00">2020-12-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="为什么需要"><a href="#为什么需要" class="headerlink" title="为什么需要"></a>为什么需要</h1><hr>
+<ul>
+<li>降低Review成本，可以明确知道本次提交的改变和影响</li>
+<li>规范整个Team的提交习惯，对技术素养的养成有益</li>
+<li>可以通过统一工具，抽取规范的message自动形成change log</li>
+</ul>
+<p><img src="/images/2020-12/git-commit-1.png"></p>
+<h1 id="GitHub-Angular-Demo"><a href="#GitHub-Angular-Demo" class="headerlink" title="GitHub Angular Demo"></a>GitHub Angular Demo</h1><hr>
+<p>目前Github的Angular项目，就是完全采用规范的Git Message来进行日常的提交管理和发布管理的，下面是这个项目的Commit记录，和自动根据commit生成的change log</p>
+<p><img src="/images/2020-12/git-commit-2.png"></p>
+<h1 id="遵循什么规范"><a href="#遵循什么规范" class="headerlink" title="遵循什么规范"></a>遵循什么规范</h1><hr>
+<p>目前，使用较多的是<a target="_blank" rel="noopener" href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">AngularJS规范</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 包括三个部分：Header，Body 和 Footer</span></span><br><span class="line"> </span><br><span class="line">&lt;<span class="built_in">type</span>&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">// 空一行</span><br><span class="line">&lt;body&gt;</span><br><span class="line">// 空一行</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h2><p>包括三个字段：type（必需）、scope（可选）和subject（必需）</p>
+<p>任何一行都不能超过100个字符</p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>用于说明 commit 的类别，类型包含如下几种</p>
+<ul>
+<li>feat: A new feature</li>
+<li>fix: A bug fix</li>
+<li>docs: Documentation only changes</li>
+<li>style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)</li>
+<li>refactor: A code change that neither fixes a bug nor adds a feature</li>
+<li>perf: A code change that improves performance</li>
+<li>test: Adding missing or correcting existing tests</li>
+<li>chore: Changes to the build process or auxiliary tools and libraries such as documentation generation</li>
+<li>revert: Reverts a previous commit</li>
+<li>build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)</li>
+<li>ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)</li>
+</ul>
+<p>如果type为feat和fix，则该 commit 将肯定出现在 Change log 之中。其他情况由你决定，要不要放入 Change log。</p>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h3><p>用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同</p>
+<h3 id="subject"><a href="#subject" class="headerlink" title="subject"></a>subject</h3><p>subject是 commit 目的的简短描述</p>
+<h2 id="Body"><a href="#Body" class="headerlink" title="Body"></a>Body</h2><p>Body 部分是对本次 commit 的详细描述，可以分成多行</p>
+<h2 id="Footer"><a href="#Footer" class="headerlink" title="Footer"></a>Footer</h2><p>Footer 部分只用于两种情况</p>
+<h3 id="不兼容变动"><a href="#不兼容变动" class="headerlink" title="不兼容变动"></a>不兼容变动</h3><p>如果当前代码与上一个版本不兼容，则 Footer 部分以BREAKING CHANGE开头，后面是对变动的描述、以及变动理由和迁移方法</p>
+<h3 id="关闭问题"><a href="#关闭问题" class="headerlink" title="关闭问题"></a>关闭问题</h3><p>如果当前 commit 针对某个issue，那么可以在 Footer 部分关闭这个 issue。</p>
+<p>如：Closes #123, #245, #992</p>
+<h1 id="工具约束"><a href="#工具约束" class="headerlink" title="工具约束"></a>工具约束</h1><hr>
+<p>我们的目标还是要通过工具生成和约束</p>
+<h2 id="Commitizen"><a href="#Commitizen" class="headerlink" title="Commitizen"></a>Commitizen</h2><p><a target="_blank" rel="noopener" href="https://github.com/commitizen/cz-cli">commitizen/cz-cli</a> 代替git commit</p>
+<p>我们需要借助它提供的 git cz 命令替代我们的 git commit 命令, 帮助我们生成符合规范的 commit message</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如何安装，在安装之前请先安装npm</span></span><br><span class="line"><span class="comment"># 全局安装 commitizen</span></span><br><span class="line">npm install commitizen -g</span><br></pre></td></tr></table></figure>
+
+<p>除此之外, 我们还需要为 commitizen 指定一个 Adapter 比如: cz-conventional-changelog (一个符合 Angular团队规范的 preset). 使得 commitizen 按照我们指定的规范帮助我们生成 commit message</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入到我们项目的根目录</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">cd</span> your_repo_root_path</span><br><span class="line"><span class="comment"># 初始化package.json</span></span><br><span class="line">npm init --yes</span><br><span class="line"><span class="comment"># 为commitizen指定适配器</span></span><br><span class="line">commitizen init cz-conventional-changelog --save-dev --save-exact</span><br></pre></td></tr></table></figure>
+
+<p>现在我们就可以用git cz去进行提交了</p>
+<p><img src="/images/2020-12/git-commit-3.png"></p>
+<p>但是问题来了，如果我们此时还用git commit -m “” 去提交，也是允许的，但是这肯定不是我们想要的，因为我们需要对message进行格式限制，所以，我们需要下面的检验插件commitlint + Husky</p>
+<h2 id="Commitlint-Husky"><a href="#Commitlint-Husky" class="headerlink" title="Commitlint + Husky"></a>Commitlint + Husky</h2><p><a target="_blank" rel="noopener" href="https://github.com/marionebl/commitlint">commitlint</a>可以帮助我们检查校验提交的message</p>
+<p>如果我们提交的不符合指向的规范, 直接拒绝提交</p>
+<p>校验 commit message 的最佳方式是结合 git hook, 所以需要配合Husky</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在我们的项目根目录</span></span><br><span class="line">npm install --save-dev @commitlint/&#123;config-conventional,cli&#125;</span><br><span class="line">npm install husky --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在package.json尾部加入如下结构</span></span><br><span class="line"><span class="string">&quot;husky&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;hooks&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;commit-msg&quot;</span>: <span class="string">&quot;commitlint -E HUSKY_GIT_PARAMS&quot;</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 在项目根目录新增文件commitlint.config.js</span></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  extends: [<span class="string">&#x27;@commitlint/config-conventional&#x27;</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">  <span class="string">&#x27;type-enum&#x27;</span>: [2, <span class="string">&#x27;always&#x27;</span>, [</span><br><span class="line">     <span class="string">&quot;feat&quot;</span>, <span class="string">&quot;fix&quot;</span>, <span class="string">&quot;docs&quot;</span>, <span class="string">&quot;style&quot;</span>, <span class="string">&quot;refactor&quot;</span>, <span class="string">&quot;perf&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;build&quot;</span>, <span class="string">&quot;ci&quot;</span>, <span class="string">&quot;chore&quot;</span>, <span class="string">&quot;revert&quot;</span></span><br><span class="line">   ]],</span><br><span class="line">  <span class="string">&#x27;scope-empty&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">  <span class="string">&#x27;subject-full-stop&#x27;</span>: [0, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">  <span class="string">&#x27;subject-case&#x27;</span>: [0, <span class="string">&#x27;never&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>现在，我们可以在试试git commit -m “test”看看是否可以正常提交，应该会得到下面的拦截记录</p>
+<p><img src="/images/2020-12/git-commit-4.png"></p>
+<h2 id="Standard-Version"><a href="#Standard-Version" class="headerlink" title="Standard Version"></a>Standard Version</h2><p>通过以上工具的帮助, 我们的工程 commit message 应该是符合Angular团队那套，这样也便于我们借助standard-version这样的工具, 自动生成 CHANGELOG, 甚至是语义化的版本号(Semantic Version)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在项目根目录</span></span><br><span class="line">npm install --save-dev standard-version</span><br><span class="line"><span class="comment"># 在scripts结构体中加入执行脚本</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;release&quot;</span>: <span class="string">&quot;standard-version&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 生成changelog</span></span><br><span class="line"><span class="comment"># 第一次生成</span></span><br><span class="line">npm run release -- --first-release</span><br><span class="line"><span class="comment"># 后续生成</span></span><br><span class="line">npm run release</span><br></pre></td></tr></table></figure>
+
+<p>会在我们项目根目录生成一个CHANGELOG.md文件，如下所示</p>
+<p><img src="/images/2020-12/git-commit-5.png"></p>
+<h1 id="项目中如何使用"><a href="#项目中如何使用" class="headerlink" title="项目中如何使用"></a>项目中如何使用</h1><hr>
+<p>如果我们已经完成了上述操作，会发现我们最终会得到一个package.json，我们只需要把package.json / commitlint.config.js提交版本库即可</p>
+<p>把node_modules 和 package-lock.json都加入git忽略文件</p>
+<p>下次再新clone项目后，直接在项目根目录运行npm install即可完成上述所有步骤</p>
+<p>PS：NPM有时候国外镜像不稳定，可以切换淘宝镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DevOps/" rel="tag"># DevOps</a>
+              <a href="/tags/Git/" rel="tag"># Git</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/02/%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%88%86%E4%BA%AB/" rel="prev" title="研发团队技术学习与分享">
+      <i class="fa fa-chevron-left"></i> 研发团队技术学习与分享
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/24/GitBranchGuidelines/" rel="next" title="Git Branch Guidelines">
+      Git Branch Guidelines <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">为什么需要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GitHub-Angular-Demo"><span class="nav-number">2.</span> <span class="nav-text">GitHub Angular Demo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%B5%E5%BE%AA%E4%BB%80%E4%B9%88%E8%A7%84%E8%8C%83"><span class="nav-number">3.</span> <span class="nav-text">遵循什么规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Header"><span class="nav-number">3.1.</span> <span class="nav-text">Header</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#type"><span class="nav-number">3.1.1.</span> <span class="nav-text">type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scope"><span class="nav-number">3.1.2.</span> <span class="nav-text">scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subject"><span class="nav-number">3.1.3.</span> <span class="nav-text">subject</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Body"><span class="nav-number">3.2.</span> <span class="nav-text">Body</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Footer"><span class="nav-number">3.3.</span> <span class="nav-text">Footer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%85%BC%E5%AE%B9%E5%8F%98%E5%8A%A8"><span class="nav-number">3.3.1.</span> <span class="nav-text">不兼容变动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%97%AE%E9%A2%98"><span class="nav-number">3.3.2.</span> <span class="nav-text">关闭问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.</span> <span class="nav-text">工具约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Commitizen"><span class="nav-number">4.1.</span> <span class="nav-text">Commitizen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Commitlint-Husky"><span class="nav-number">4.2.</span> <span class="nav-text">Commitlint + Husky</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-Version"><span class="nav-number">4.3.</span> <span class="nav-text">Standard Version</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">项目中如何使用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="天行者YANG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">天行者YANG</p>
+  <div class="site-description" itemprop="description">技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/ffbe5419f359" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;ffbe5419f359" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://toutiao.io/subjects/199751" title="开发者头条 → https:&#x2F;&#x2F;toutiao.io&#x2F;subjects&#x2F;199751" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>开发者头条</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:michaelliu99@sina.com" title="E-Mail → mailto:michaelliu99@sina.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">天行者YANG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

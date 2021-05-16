@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"skywalkerai.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="面临的问题创业公司一般面临下面几个问题 钱不多，省着花 一般研发人员，不具备此类知识体系或者所知不多  需求一直存在虽然，存在一些问题，但是随着业务发展，人员增多，此类问题会暴露的越发明显，产品技术团队的高效工作，其实是建立在合适、安全、方便的基础设施之上的 如何解决前期准备 Dell服务器1台（约2 - 3w RMB） NAS存储，主要做重要系统数据备份（可选） 交换机（不做过多介绍） 整理办公">
+<meta property="og:type" content="article">
+<meta property="og:title" content="创业公司基础设施如何搭建（一） —— 前期准备">
+<meta property="og:url" content="https://skywalkerai.com/2020/02/09/%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89%20%E2%80%94%E2%80%94%20%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/index.html">
+<meta property="og:site_name" content="天行者YANG - BLOG">
+<meta property="og:description" content="面临的问题创业公司一般面临下面几个问题 钱不多，省着花 一般研发人员，不具备此类知识体系或者所知不多  需求一直存在虽然，存在一些问题，但是随着业务发展，人员增多，此类问题会暴露的越发明显，产品技术团队的高效工作，其实是建立在合适、安全、方便的基础设施之上的 如何解决前期准备 Dell服务器1台（约2 - 3w RMB） NAS存储，主要做重要系统数据备份（可选） 交换机（不做过多介绍） 整理办公">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-02/ops-arch.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-02/ops-layer.jpg">
+<meta property="og:image" content="https://skywalkerai.com/images/2020-02/arch-layer.jpg">
+<meta property="article:published_time" content="2020-02-09T02:55:02.000Z">
+<meta property="article:modified_time" content="2021-03-26T04:01:46.984Z">
+<meta property="article:author" content="天行者YANG">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skywalkerai.com/images/2020-02/ops-arch.jpg">
+
+<link rel="canonical" href="https://skywalkerai.com/2020/02/09/%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89%20%E2%80%94%E2%80%94%20%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>创业公司基础设施如何搭建（一） —— 前期准备 | 天行者YANG - BLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">天行者YANG - BLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/02/09/%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89%20%E2%80%94%E2%80%94%20%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          创业公司基础设施如何搭建（一） —— 前期准备
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-09 10:55:02" itemprop="dateCreated datePublished" datetime="2020-02-09T10:55:02+08:00">2020-02-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="面临的问题"><a href="#面临的问题" class="headerlink" title="面临的问题"></a>面临的问题</h1><h2 id="创业公司一般面临下面几个问题"><a href="#创业公司一般面临下面几个问题" class="headerlink" title="创业公司一般面临下面几个问题"></a>创业公司一般面临下面几个问题</h2><ul>
+<li>钱不多，省着花</li>
+<li>一般研发人员，不具备此类知识体系或者所知不多</li>
+</ul>
+<h2 id="需求一直存在"><a href="#需求一直存在" class="headerlink" title="需求一直存在"></a>需求一直存在</h2><p>虽然，存在一些问题，但是随着业务发展，人员增多，此类问题会暴露的越发明显，产品技术团队的高效工作，其实是建立在合适、安全、方便的基础设施之上的</p>
+<h1 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h1><h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
+<li>Dell服务器1台（约2 - 3w RMB）</li>
+<li>NAS存储，主要做重要系统数据备份（可选）</li>
+<li>交换机（不做过多介绍）</li>
+<li>整理办公和研发需求</li>
+</ul>
+<p>下面是选择的服务器，这个配置，基本可以满足100人左右企业的日常办公和部分研发测试需求</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>T640 塔式服务器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>Intel(R) Xeon(R) CPU 银牌4110*2</td>
+</tr>
+<tr>
+<td>MEM</td>
+<td>16G*6</td>
+</tr>
+<tr>
+<td>硬盘</td>
+<td>4T*3 raid5 + 256固态系统盘</td>
+</tr>
+</tbody></table>
+<h2 id="基础设施包含什么"><a href="#基础设施包含什么" class="headerlink" title="基础设施包含什么"></a>基础设施包含什么</h2><ul>
+<li>虚拟化的平台工具：我这里选择的是Vmware，好处毋庸置疑，但是收费，我这里之所以选，是因为，有一些历史原因（你懂得，有需求可以单独找我），如果不用，可以考虑OpenStack替代</li>
+<li>容器化：Docker是不二之选，这个根据企业自己的需求来看，我个人觉得，初期可以不用容器化，但是，如果有相关维护人员，可以选择Docker Swam或者K8s进行容器化管理</li>
+<li>根据需要选择工具：一般企业需要解决的是，知识库、项目和流程管理系统、资产管理系统、统一账户体系、代码库、工件库、如何在外安全上网、内部域名管理、如何安全登录服务器这些需求、数据安全和备份</li>
+</ul>
+<h1 id="基础设施搭建示意图"><a href="#基础设施搭建示意图" class="headerlink" title="基础设施搭建示意图"></a>基础设施搭建示意图</h1><p>基于VMware ESXI &amp; vSphere</p>
+<h2 id="层级示意"><a href="#层级示意" class="headerlink" title="层级示意"></a>层级示意</h2><p><img src="/images/2020-02/ops-arch.jpg"></p>
+<h2 id="架构示意"><a href="#架构示意" class="headerlink" title="架构示意"></a>架构示意</h2><p><img src="/images/2020-02/ops-layer.jpg"></p>
+<h1 id="我用到的工具"><a href="#我用到的工具" class="headerlink" title="我用到的工具"></a>我用到的工具</h1><p><img src="/images/2020-02/arch-layer.jpg"></p>
+<p>后续，会陆续介绍下，我在搭建的时候，相关工具的搭建流程和使用方式</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DevOps/" rel="tag"># DevOps</a>
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/08/%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A7%89%E5%BE%97DevOps%E5%A5%BD/" rel="prev" title="我为什么觉得DevOps好">
+      <i class="fa fa-chevron-left"></i> 我为什么觉得DevOps好
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/10/%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%EF%BC%88%E4%BA%8C%EF%BC%89%20%E2%80%94%E2%80%94%20Docker%E5%AE%89%E8%A3%85/" rel="next" title="创业公司基础设施如何搭建（二） —— Docker安装">
+      创业公司基础设施如何搭建（二） —— Docker安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E4%B8%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">面临的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E4%B8%80%E8%88%AC%E9%9D%A2%E4%B8%B4%E4%B8%8B%E9%9D%A2%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">创业公司一般面临下面几个问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E4%B8%80%E7%9B%B4%E5%AD%98%E5%9C%A8"><span class="nav-number">1.2.</span> <span class="nav-text">需求一直存在</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="nav-number">2.</span> <span class="nav-text">如何解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="nav-number">2.1.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88"><span class="nav-number">2.2.</span> <span class="nav-text">基础设施包含什么</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E6%90%AD%E5%BB%BA%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">基础设施搭建示意图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%82%E7%BA%A7%E7%A4%BA%E6%84%8F"><span class="nav-number">3.1.</span> <span class="nav-text">层级示意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F"><span class="nav-number">3.2.</span> <span class="nav-text">架构示意</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E7%94%A8%E5%88%B0%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="nav-number">4.</span> <span class="nav-text">我用到的工具</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="天行者YANG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">天行者YANG</p>
+  <div class="site-description" itemprop="description">技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/ffbe5419f359" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;ffbe5419f359" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://toutiao.io/subjects/199751" title="开发者头条 → https:&#x2F;&#x2F;toutiao.io&#x2F;subjects&#x2F;199751" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>开发者头条</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:michaelliu99@sina.com" title="E-Mail → mailto:michaelliu99@sina.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">天行者YANG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
