@@ -157,6 +157,155 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2021/12/09/%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96%E8%AF%84%E4%BB%B7%E3%80%8C%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E3%80%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/09/%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96%E8%AF%84%E4%BB%B7%E3%80%8C%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E3%80%8D/" class="post-title-link" itemprop="url">如何数据化评价「迭代质量」</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 13:38:00" itemprop="dateCreated datePublished" datetime="2021-12-09T13:38:00+08:00">2021-12-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="为什么要数据化"><a href="#为什么要数据化" class="headerlink" title="为什么要数据化"></a>为什么要数据化</h1><hr>
+<h2 id="用事实说话"><a href="#用事实说话" class="headerlink" title="用事实说话"></a>用事实说话</h2><p>通过数据的客观事实反应团队的协同效果和成果的产出质量，是从另外一个客观视角去挖掘问题的一种方式。尽量不要用「我觉得」、「我认为」这些主观臆断方式，进行复杂问题的评价。</p>
+<h2 id="角色多样、配合复杂"><a href="#角色多样、配合复杂" class="headerlink" title="角色多样、配合复杂"></a>角色多样、配合复杂</h2><p>一个迭代，往往涉及到很多角色。所以，这些角色的行为和成果，对于「迭代质量」都会产生各种变化，这些变化往往是复杂的。所以，也需要从数据的层面，收集各个维度的客观事实，综合地评价「迭代质量」。</p>
+<h2 id="迭代也要迭代"><a href="#迭代也要迭代" class="headerlink" title="迭代也要迭代"></a>迭代也要迭代</h2><p>产品的优化、迭代，是不断持续完善的。企业和产品的不同阶段，针对质量的要求其实也是完全不一样的。著名的项目管理三角形，其实就是权衡的过程，时间、成本、范围，最终都会影响质量的高低，只不过看某些阶段，我们更看重什么。在企业、产品不断的发展过程中，我们需要从各个方面收集数据，从不同维度持续分析「迭代质量」，以便于帮助我们在当前环境下，进行取舍，从而达到我们的产品目标。</p>
+<h1 id="如何数据化"><a href="#如何数据化" class="headerlink" title="如何数据化"></a>如何数据化</h1><hr>
+<p>在我们团队内部，采用了一个标准来评价迭代的质量，即「迭代质量评价标准」，其组成如下</p>
+<h2 id="迭代质量评价标准组成"><a href="#迭代质量评价标准组成" class="headerlink" title="迭代质量评价标准组成"></a>迭代质量评价标准组成</h2><p>4个维度 + 1个分值</p>
+<ul>
+<li>4个维度<ul>
+<li>PM改动需求（30%）</li>
+<li>User Story交付延期情况（10%）</li>
+<li>User Story冒烟测试情况（20%）</li>
+<li>Bug（40%）</li>
+</ul>
+</li>
+<li>1个分值<ul>
+<li>迭代质量分值</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/2021-12/pie.png"></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>占比</th>
+<th>分值</th>
+<th>计算规则</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PM改动需求（PRD定稿后）</td>
+<td>30%</td>
+<td>10</td>
+<td><img src="/images/2021-12/1.png"></td>
+<td>Delay 0.5天，减1分，该项得分为：(10 - 1) * 0.3 = 2.7</td>
+</tr>
+<tr>
+<td>User Story交付测试延期</td>
+<td>10%</td>
+<td>10</td>
+<td><img src="/images/2021-12/2.png"></td>
+<td>Delay 1天，减2分，该项得分为：(10 - 2) * 0.1 = 0.8</td>
+</tr>
+<tr>
+<td>User Story冒烟测试通过情况</td>
+<td>20%</td>
+<td>10</td>
+<td>通过测试的故事数 / 故事总数 * 2</td>
+<td>共5个User Story，通过了3个，3 / 5 = 0.6 * 2 = 1.2</td>
+</tr>
+<tr>
+<td>Bug（n = Bug总数 / 总故事点）</td>
+<td>40%</td>
+<td>10</td>
+<td><img src="/images/2021-12/3.png"></td>
+<td>共30个Bug，6个User Story，30 / 6 = 5，在5&lt;=n&lt;6区间内，得5分，再乘以40%，5 * 0.4 = 2</td>
+</tr>
+</tbody></table>
+<h1 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h1><hr>
+<p><img src="/images/2021-12/sprint-data.jpg"></p>
+<p>上面是我的团队，近期的一组迭代数据，背景交代</p>
+<ul>
+<li>故事点：1个故事点 = 1人天</li>
+<li>迭代流程：按故事开发和测试 → 整体回顾测试 → PM&amp;UI验收 → 发布 → 复盘</li>
+</ul>
+<h1 id="迭代数据化能带给团队什么"><a href="#迭代数据化能带给团队什么" class="headerlink" title="迭代数据化能带给团队什么"></a>迭代数据化能带给团队什么</h1><hr>
+<ul>
+<li>团队为迭代负责<ul>
+<li>通过数据化呈现迭代质量，让团队以一种理性的方式，审视迭代问题，从而找到解决方案，伙伴的目标是一致的：让迭代更好</li>
+</ul>
+</li>
+<li>让「问题」透明化</li>
+<li>为改进团队迭代效能提供了坚实的数据基础（任何改变都能从数据层面找到体现）</li>
+</ul>
+<h1 id="想做还没做的事情"><a href="#想做还没做的事情" class="headerlink" title="想做还没做的事情"></a>想做还没做的事情</h1><hr>
+<p>通过打通我们使用的各个敏捷工具，自动化收集迭代数据，产生「迭代质量分值」，并可以针对历史数据进行各自维度对比，从而更好的提高效率。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2021/08/18/%E5%B0%8F%E5%9B%A2%E9%98%9F%E6%95%8F%E6%8D%B7%E5%AE%9E%E8%B7%B52.0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1257,139 +1406,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/12/02/%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%88%86%E4%BA%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="天行者YANG">
-      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天行者YANG - BLOG">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/02/%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%88%86%E4%BA%AB/" class="post-title-link" itemprop="url">研发团队技术学习与分享</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-02 19:45:47" itemprop="dateCreated datePublished" datetime="2020-12-02T19:45:47+08:00">2020-12-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">技术管理</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><hr>
-<p>首先，我们需要明确为什么要做这件事情。这件事情能给大家带来什么，预期结果又是什么，这里的“大家”主要有3个主体：公司、团队、个人，每个主体对于技术学习与分享这件事件，都有不同的预期结果，下面总结了几点目的：</p>
-<ul>
-<li>学习新技术，提升自我，形成技术知识体系</li>
-<li>提升专业知识领域的经验</li>
-<li>提升沟通和表达能力</li>
-<li>学习和分析内容，可以帮助产品技术框架、性能、工具的推进</li>
-<li>技术资料的沉淀，形成公司技术价值</li>
-</ul>
-<h1 id="如何开始"><a href="#如何开始" class="headerlink" title="如何开始"></a>如何开始</h1><hr>
-<p>了解了目的，我们需要想想如何做，才能达成目的。成人的学习、培训是比较难顺利推进，繁重的开发任务和人的惰性，Leader和管理层是否真正关注和帮助大家，这些都是历来公司内部推进技术学习与分享的各种困难，最后很多公司和团队都是不了了之。那么我们怎么做才能避免一些坑呢：</p>
-<ul>
-<li>管理层统一思想，技术学习和分享是长期工作，其效果体现需要长期来看和评估</li>
-<li>内容的质量，内容不能过浅</li>
-<li>明确的分享周期和分享团队，明确分享人和听众的责任</li>
-<li>选择内容不能随意，需要针对“听众”的情况，选择感兴趣的内容</li>
-</ul>
-<h1 id="如何做"><a href="#如何做" class="headerlink" title="如何做"></a>如何做</h1><hr>
-<h2 id="1-分享成员"><a href="#1-分享成员" class="headerlink" title="1.分享成员"></a>1.分享成员</h2><p>降低责任分母，如果12人团队，责任分母是12，会因为各种原因，某个人觉得不是我一个人的事情，很难主动分享；把分享做成小组，责任分母变小，可能是2或者3，这样小组内推进，比每个人的自驱动力推进来的靠谱。</p>
-<p> 我们目前的研发团队组成有3类</p>
-<ul>
-<li>RD：4人</li>
-<li>FE：5人</li>
-<li>QA：3人</li>
-</ul>
-<p>以3个小组为单位，进行技术学习和分享活动，按照顺序轮流执行，小组内，可以一次多人分享，也可以一次一人分享。</p>
-<h2 id="2-周期确定"><a href="#2-周期确定" class="headerlink" title="2.周期确定"></a>2.周期确定</h2><p>周期规则必须明确，这样分享人和听众，都有时间去准备。</p>
-<h3 id="分享时间规则"><a href="#分享时间规则" class="headerlink" title="分享时间规则"></a>分享时间规则</h3><ul>
-<li>频次：每2周1次（几组轮流）</li>
-<li>时间：周四晚上19点15分</li>
-<li>时长：60分钟内</li>
-</ul>
-<h3 id="分享人准备"><a href="#分享人准备" class="headerlink" title="分享人准备"></a>分享人准备</h3><ul>
-<li>发出大纲：提前1周，即分享前一周的周四前发出</li>
-</ul>
-<h3 id="听众准备"><a href="#听众准备" class="headerlink" title="听众准备"></a>听众准备</h3><ul>
-<li>阅读资料：分享会前1周内，需要把分享资料进行阅读，有分析显示，如果不提前看开会内容，在会议上可能听懂的内容也就20%，为了不浪费自己的生命，也应该分享前去阅读资料</li>
-</ul>
-<h2 id="3-内容选择"><a href="#3-内容选择" class="headerlink" title="3.内容选择"></a>3.内容选择</h2><p>学习和分享的目的，是为了提高大家的技术水平，扩展大家认知的领域，所以内容选择建议分成2类：技术专题分享、自由主题分享。</p>
-<h3 id="如何选择内容"><a href="#如何选择内容" class="headerlink" title="如何选择内容"></a>如何选择内容</h3><p>内容的选择，应该因团队情况和产品技术架构情况而异，每个季度进行一次规划，从团队中了解管理、技术弱点、希望提高的方面、产品下一步的技术和框架的要求，针对规划出来的内容，进行内容的选择（也包含培训课程平台的选择，目前选择的是拉勾教育）。</p>
-<h3 id="技术专题分享"><a href="#技术专题分享" class="headerlink" title="技术专题分享"></a>技术专题分享</h3><ul>
-<li>有针对性提升团队在某一个技术领域的专业技能</li>
-<li>可以快速的，有针对性的使用在现有架构和产品中</li>
-<li>往往需要由浅入深，进行循序渐进的分享</li>
-</ul>
-<h3 id="自由主题分享"><a href="#自由主题分享" class="headerlink" title="自由主题分享"></a>自由主题分享</h3><ul>
-<li>拓展认知</li>
-<li>内容可以更广，甚至可以邀请相关非技术同学参加</li>
-<li>更加要求分享者的表达的逻辑思维，怎么把大家不熟悉的内容，讲明白</li>
-</ul>
-<p>针对分享类型，可以有针对性的进行技术专题分享和自由主题分享的交替</p>
-<h3 id="Reject-Simple"><a href="#Reject-Simple" class="headerlink" title="Reject Simple"></a>Reject Simple</h3><p>想要分享的内容和形式NB，你就得变的NB<br>在内容上，我们拒绝特别简单的技术内容，不要分享安装什么什么环境、什么什么入门之类的</p>
-<h2 id="4-团队氛围"><a href="#4-团队氛围" class="headerlink" title="4.团队氛围"></a>4.团队氛围</h2><p>通过技术学习和分享，提升团队的技术氛围，加强大家的了解，提高凝聚力。</p>
-<p>分享会提供一些饮料、好吃的，在一个轻松的氛围下，免费学习知识，肯定有更多的人愿意来参与进来，主动性会增强很多。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
-<p>除了学习和分享，也希望大家学会感恩</p>
-<p><strong>感谢</strong>公司可以提供平台给大家进行分享的机会；<br><strong>感谢</strong>分享人利用自己时间，准备PPT；<br><strong>感谢</strong>听众认真聆听，踊跃提问；</p>
-<p>怀着一颗感恩的心，你会看到更美好的东西，站在别人的角度思考，会让你走向另一个高度！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-
-  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
-    <span>微信关注我，及时接收最新技术文章</span>
-  </div>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1457,7 +1477,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1508,7 +1528,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

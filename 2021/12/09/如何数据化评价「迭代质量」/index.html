@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"skywalkerai.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="为什么要数据化 用事实说话通过数据的客观事实反应团队的协同效果和成果的产出质量，是从另外一个客观视角去挖掘问题的一种方式。尽量不要用「我觉得」、「我认为」这些主观臆断方式，进行复杂问题的评价。 角色多样、配合复杂一个迭代，往往涉及到很多角色。所以，这些角色的行为和成果，对于「迭代质量」都会产生各种变化，这些变化往往是复杂的。所以，也需要从数据的层面，收集各个维度的客观事实，综合地评价「迭代质量」。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何数据化评价「迭代质量」">
+<meta property="og:url" content="https://skywalkerai.com/2021/12/09/%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96%E8%AF%84%E4%BB%B7%E3%80%8C%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E3%80%8D/index.html">
+<meta property="og:site_name" content="天行者YANG - BLOG">
+<meta property="og:description" content="为什么要数据化 用事实说话通过数据的客观事实反应团队的协同效果和成果的产出质量，是从另外一个客观视角去挖掘问题的一种方式。尽量不要用「我觉得」、「我认为」这些主观臆断方式，进行复杂问题的评价。 角色多样、配合复杂一个迭代，往往涉及到很多角色。所以，这些角色的行为和成果，对于「迭代质量」都会产生各种变化，这些变化往往是复杂的。所以，也需要从数据的层面，收集各个维度的客观事实，综合地评价「迭代质量」。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://skywalkerai.com/images/2021-12/pie.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2021-12/1.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2021-12/2.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2021-12/3.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2021-12/sprint-data.jpg">
+<meta property="article:published_time" content="2021-12-09T05:38:00.000Z">
+<meta property="article:modified_time" content="2022-01-07T09:43:22.325Z">
+<meta property="article:author" content="天行者YANG">
+<meta property="article:tag" content="敏捷">
+<meta property="article:tag" content="技术管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skywalkerai.com/images/2021-12/pie.png">
+
+<link rel="canonical" href="https://skywalkerai.com/2021/12/09/%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96%E8%AF%84%E4%BB%B7%E3%80%8C%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E3%80%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何数据化评价「迭代质量」 | 天行者YANG - BLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">天行者YANG - BLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2021/12/09/%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96%E8%AF%84%E4%BB%B7%E3%80%8C%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E3%80%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何数据化评价「迭代质量」
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 13:38:00" itemprop="dateCreated datePublished" datetime="2021-12-09T13:38:00+08:00">2021-12-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="为什么要数据化"><a href="#为什么要数据化" class="headerlink" title="为什么要数据化"></a>为什么要数据化</h1><hr>
+<h2 id="用事实说话"><a href="#用事实说话" class="headerlink" title="用事实说话"></a>用事实说话</h2><p>通过数据的客观事实反应团队的协同效果和成果的产出质量，是从另外一个客观视角去挖掘问题的一种方式。尽量不要用「我觉得」、「我认为」这些主观臆断方式，进行复杂问题的评价。</p>
+<h2 id="角色多样、配合复杂"><a href="#角色多样、配合复杂" class="headerlink" title="角色多样、配合复杂"></a>角色多样、配合复杂</h2><p>一个迭代，往往涉及到很多角色。所以，这些角色的行为和成果，对于「迭代质量」都会产生各种变化，这些变化往往是复杂的。所以，也需要从数据的层面，收集各个维度的客观事实，综合地评价「迭代质量」。</p>
+<h2 id="迭代也要迭代"><a href="#迭代也要迭代" class="headerlink" title="迭代也要迭代"></a>迭代也要迭代</h2><p>产品的优化、迭代，是不断持续完善的。企业和产品的不同阶段，针对质量的要求其实也是完全不一样的。著名的项目管理三角形，其实就是权衡的过程，时间、成本、范围，最终都会影响质量的高低，只不过看某些阶段，我们更看重什么。在企业、产品不断的发展过程中，我们需要从各个方面收集数据，从不同维度持续分析「迭代质量」，以便于帮助我们在当前环境下，进行取舍，从而达到我们的产品目标。</p>
+<h1 id="如何数据化"><a href="#如何数据化" class="headerlink" title="如何数据化"></a>如何数据化</h1><hr>
+<p>在我们团队内部，采用了一个标准来评价迭代的质量，即「迭代质量评价标准」，其组成如下</p>
+<h2 id="迭代质量评价标准组成"><a href="#迭代质量评价标准组成" class="headerlink" title="迭代质量评价标准组成"></a>迭代质量评价标准组成</h2><p>4个维度 + 1个分值</p>
+<ul>
+<li>4个维度<ul>
+<li>PM改动需求（30%）</li>
+<li>User Story交付延期情况（10%）</li>
+<li>User Story冒烟测试情况（20%）</li>
+<li>Bug（40%）</li>
+</ul>
+</li>
+<li>1个分值<ul>
+<li>迭代质量分值</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/2021-12/pie.png"></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>占比</th>
+<th>分值</th>
+<th>计算规则</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PM改动需求（PRD定稿后）</td>
+<td>30%</td>
+<td>10</td>
+<td><img src="/images/2021-12/1.png"></td>
+<td>Delay 0.5天，减1分，该项得分为：(10 - 1) * 0.3 = 2.7</td>
+</tr>
+<tr>
+<td>User Story交付测试延期</td>
+<td>10%</td>
+<td>10</td>
+<td><img src="/images/2021-12/2.png"></td>
+<td>Delay 1天，减2分，该项得分为：(10 - 2) * 0.1 = 0.8</td>
+</tr>
+<tr>
+<td>User Story冒烟测试通过情况</td>
+<td>20%</td>
+<td>10</td>
+<td>通过测试的故事数 / 故事总数 * 2</td>
+<td>共5个User Story，通过了3个，3 / 5 = 0.6 * 2 = 1.2</td>
+</tr>
+<tr>
+<td>Bug（n = Bug总数 / 总故事点）</td>
+<td>40%</td>
+<td>10</td>
+<td><img src="/images/2021-12/3.png"></td>
+<td>共30个Bug，6个User Story，30 / 6 = 5，在5&lt;=n&lt;6区间内，得5分，再乘以40%，5 * 0.4 = 2</td>
+</tr>
+</tbody></table>
+<h1 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h1><hr>
+<p><img src="/images/2021-12/sprint-data.jpg"></p>
+<p>上面是我的团队，近期的一组迭代数据，背景交代</p>
+<ul>
+<li>故事点：1个故事点 = 1人天</li>
+<li>迭代流程：按故事开发和测试 → 整体回顾测试 → PM&amp;UI验收 → 发布 → 复盘</li>
+</ul>
+<h1 id="迭代数据化能带给团队什么"><a href="#迭代数据化能带给团队什么" class="headerlink" title="迭代数据化能带给团队什么"></a>迭代数据化能带给团队什么</h1><hr>
+<ul>
+<li>团队为迭代负责<ul>
+<li>通过数据化呈现迭代质量，让团队以一种理性的方式，审视迭代问题，从而找到解决方案，伙伴的目标是一致的：让迭代更好</li>
+</ul>
+</li>
+<li>让「问题」透明化</li>
+<li>为改进团队迭代效能提供了坚实的数据基础（任何改变都能从数据层面找到体现）</li>
+</ul>
+<h1 id="想做还没做的事情"><a href="#想做还没做的事情" class="headerlink" title="想做还没做的事情"></a>想做还没做的事情</h1><hr>
+<p>通过打通我们使用的各个敏捷工具，自动化收集迭代数据，产生「迭代质量分值」，并可以针对历史数据进行各自维度对比，从而更好的提高效率。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%8F%E6%8D%B7/" rel="tag"># 敏捷</a>
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86/" rel="tag"># 技术管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/18/%E5%B0%8F%E5%9B%A2%E9%98%9F%E6%95%8F%E6%8D%B7%E5%AE%9E%E8%B7%B52.0/" rel="prev" title="小团队敏捷实践2.0">
+      <i class="fa fa-chevron-left"></i> 小团队敏捷实践2.0
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%95%B0%E6%8D%AE%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">为什么要数据化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BA%8B%E5%AE%9E%E8%AF%B4%E8%AF%9D"><span class="nav-number">1.1.</span> <span class="nav-text">用事实说话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E5%A4%9A%E6%A0%B7%E3%80%81%E9%85%8D%E5%90%88%E5%A4%8D%E6%9D%82"><span class="nav-number">1.2.</span> <span class="nav-text">角色多样、配合复杂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E4%B9%9F%E8%A6%81%E8%BF%AD%E4%BB%A3"><span class="nav-number">1.3.</span> <span class="nav-text">迭代也要迭代</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">如何数据化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E8%AF%84%E4%BB%B7%E6%A0%87%E5%87%86%E7%BB%84%E6%88%90"><span class="nav-number">2.1.</span> <span class="nav-text">迭代质量评价标准组成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="nav-number">3.</span> <span class="nav-text">举个栗子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E6%95%B0%E6%8D%AE%E5%8C%96%E8%83%BD%E5%B8%A6%E7%BB%99%E5%9B%A2%E9%98%9F%E4%BB%80%E4%B9%88"><span class="nav-number">4.</span> <span class="nav-text">迭代数据化能带给团队什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%83%B3%E5%81%9A%E8%BF%98%E6%B2%A1%E5%81%9A%E7%9A%84%E4%BA%8B%E6%83%85"><span class="nav-number">5.</span> <span class="nav-text">想做还没做的事情</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="天行者YANG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">天行者YANG</p>
+  <div class="site-description" itemprop="description">技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/ffbe5419f359" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;ffbe5419f359" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://toutiao.io/subjects/199751" title="开发者头条 → https:&#x2F;&#x2F;toutiao.io&#x2F;subjects&#x2F;199751" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>开发者头条</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:michaelliu99@sina.com" title="E-Mail → mailto:michaelliu99@sina.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">天行者YANG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
