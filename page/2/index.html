@@ -165,6 +165,144 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/12/18/GitCommitGuidelines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/18/GitCommitGuidelines/" class="post-title-link" itemprop="url">Git Commit Guidelines</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-18 23:56:02" itemprop="dateCreated datePublished" datetime="2020-12-18T23:56:02+08:00">2020-12-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="为什么需要"><a href="#为什么需要" class="headerlink" title="为什么需要"></a>为什么需要</h1><hr>
+<ul>
+<li>降低Review成本，可以明确知道本次提交的改变和影响</li>
+<li>规范整个Team的提交习惯，对技术素养的养成有益</li>
+<li>可以通过统一工具，抽取规范的message自动形成change log</li>
+</ul>
+<p><img src="/images/2020-12/git-commit-1.png"></p>
+<h1 id="GitHub-Angular-Demo"><a href="#GitHub-Angular-Demo" class="headerlink" title="GitHub Angular Demo"></a>GitHub Angular Demo</h1><hr>
+<p>目前Github的Angular项目，就是完全采用规范的Git Message来进行日常的提交管理和发布管理的，下面是这个项目的Commit记录，和自动根据commit生成的change log</p>
+<p><img src="/images/2020-12/git-commit-2.png"></p>
+<h1 id="遵循什么规范"><a href="#遵循什么规范" class="headerlink" title="遵循什么规范"></a>遵循什么规范</h1><hr>
+<p>目前，使用较多的是<a target="_blank" rel="noopener" href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">AngularJS规范</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 包括三个部分：Header，Body 和 Footer</span></span><br><span class="line"> </span><br><span class="line">&lt;<span class="built_in">type</span>&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">// 空一行</span><br><span class="line">&lt;body&gt;</span><br><span class="line">// 空一行</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h2><p>包括三个字段：type（必需）、scope（可选）和subject（必需）</p>
+<p>任何一行都不能超过100个字符</p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>用于说明 commit 的类别，类型包含如下几种</p>
+<ul>
+<li>feat: A new feature</li>
+<li>fix: A bug fix</li>
+<li>docs: Documentation only changes</li>
+<li>style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)</li>
+<li>refactor: A code change that neither fixes a bug nor adds a feature</li>
+<li>perf: A code change that improves performance</li>
+<li>test: Adding missing or correcting existing tests</li>
+<li>chore: Changes to the build process or auxiliary tools and libraries such as documentation generation</li>
+<li>revert: Reverts a previous commit</li>
+<li>build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)</li>
+<li>ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)</li>
+</ul>
+<p>如果type为feat和fix，则该 commit 将肯定出现在 Change log 之中。其他情况由你决定，要不要放入 Change log。</p>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h3><p>用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同</p>
+<h3 id="subject"><a href="#subject" class="headerlink" title="subject"></a>subject</h3><p>subject是 commit 目的的简短描述</p>
+<h2 id="Body"><a href="#Body" class="headerlink" title="Body"></a>Body</h2><p>Body 部分是对本次 commit 的详细描述，可以分成多行</p>
+<h2 id="Footer"><a href="#Footer" class="headerlink" title="Footer"></a>Footer</h2><p>Footer 部分只用于两种情况</p>
+<h3 id="不兼容变动"><a href="#不兼容变动" class="headerlink" title="不兼容变动"></a>不兼容变动</h3><p>如果当前代码与上一个版本不兼容，则 Footer 部分以BREAKING CHANGE开头，后面是对变动的描述、以及变动理由和迁移方法</p>
+<h3 id="关闭问题"><a href="#关闭问题" class="headerlink" title="关闭问题"></a>关闭问题</h3><p>如果当前 commit 针对某个issue，那么可以在 Footer 部分关闭这个 issue。</p>
+<p>如：Closes #123, #245, #992</p>
+<h1 id="工具约束"><a href="#工具约束" class="headerlink" title="工具约束"></a>工具约束</h1><hr>
+<p>我们的目标还是要通过工具生成和约束</p>
+<h2 id="Commitizen"><a href="#Commitizen" class="headerlink" title="Commitizen"></a>Commitizen</h2><p><a target="_blank" rel="noopener" href="https://github.com/commitizen/cz-cli">commitizen/cz-cli</a> 代替git commit</p>
+<p>我们需要借助它提供的 git cz 命令替代我们的 git commit 命令, 帮助我们生成符合规范的 commit message</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如何安装，在安装之前请先安装npm</span></span><br><span class="line"><span class="comment"># 全局安装 commitizen</span></span><br><span class="line">npm install commitizen -g</span><br></pre></td></tr></table></figure>
+
+<p>除此之外, 我们还需要为 commitizen 指定一个 Adapter 比如: cz-conventional-changelog (一个符合 Angular团队规范的 preset). 使得 commitizen 按照我们指定的规范帮助我们生成 commit message</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入到我们项目的根目录</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">cd</span> your_repo_root_path</span><br><span class="line"><span class="comment"># 初始化package.json</span></span><br><span class="line">npm init --yes</span><br><span class="line"><span class="comment"># 为commitizen指定适配器</span></span><br><span class="line">commitizen init cz-conventional-changelog --save-dev --save-exact</span><br></pre></td></tr></table></figure>
+
+<p>现在我们就可以用git cz去进行提交了</p>
+<p><img src="/images/2020-12/git-commit-3.png"></p>
+<p>但是问题来了，如果我们此时还用git commit -m “” 去提交，也是允许的，但是这肯定不是我们想要的，因为我们需要对message进行格式限制，所以，我们需要下面的检验插件commitlint + Husky</p>
+<h2 id="Commitlint-Husky"><a href="#Commitlint-Husky" class="headerlink" title="Commitlint + Husky"></a>Commitlint + Husky</h2><p><a target="_blank" rel="noopener" href="https://github.com/marionebl/commitlint">commitlint</a>可以帮助我们检查校验提交的message</p>
+<p>如果我们提交的不符合指向的规范, 直接拒绝提交</p>
+<p>校验 commit message 的最佳方式是结合 git hook, 所以需要配合Husky</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在我们的项目根目录</span></span><br><span class="line">npm install --save-dev @commitlint/&#123;config-conventional,cli&#125;</span><br><span class="line">npm install husky --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在package.json尾部加入如下结构</span></span><br><span class="line"><span class="string">&quot;husky&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;hooks&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;commit-msg&quot;</span>: <span class="string">&quot;commitlint -E HUSKY_GIT_PARAMS&quot;</span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 在项目根目录新增文件commitlint.config.js</span></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  extends: [<span class="string">&#x27;@commitlint/config-conventional&#x27;</span>],</span><br><span class="line">  rules: &#123;</span><br><span class="line">  <span class="string">&#x27;type-enum&#x27;</span>: [2, <span class="string">&#x27;always&#x27;</span>, [</span><br><span class="line">     <span class="string">&quot;feat&quot;</span>, <span class="string">&quot;fix&quot;</span>, <span class="string">&quot;docs&quot;</span>, <span class="string">&quot;style&quot;</span>, <span class="string">&quot;refactor&quot;</span>, <span class="string">&quot;perf&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;build&quot;</span>, <span class="string">&quot;ci&quot;</span>, <span class="string">&quot;chore&quot;</span>, <span class="string">&quot;revert&quot;</span></span><br><span class="line">   ]],</span><br><span class="line">  <span class="string">&#x27;scope-empty&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">  <span class="string">&#x27;subject-full-stop&#x27;</span>: [0, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">  <span class="string">&#x27;subject-case&#x27;</span>: [0, <span class="string">&#x27;never&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>现在，我们可以在试试git commit -m “test”看看是否可以正常提交，应该会得到下面的拦截记录</p>
+<p><img src="/images/2020-12/git-commit-4.png"></p>
+<h2 id="Standard-Version"><a href="#Standard-Version" class="headerlink" title="Standard Version"></a>Standard Version</h2><p>通过以上工具的帮助, 我们的工程 commit message 应该是符合Angular团队那套，这样也便于我们借助standard-version这样的工具, 自动生成 CHANGELOG, 甚至是语义化的版本号(Semantic Version)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在项目根目录</span></span><br><span class="line">npm install --save-dev standard-version</span><br><span class="line"><span class="comment"># 在scripts结构体中加入执行脚本</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;release&quot;</span>: <span class="string">&quot;standard-version&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 生成changelog</span></span><br><span class="line"><span class="comment"># 第一次生成</span></span><br><span class="line">npm run release -- --first-release</span><br><span class="line"><span class="comment"># 后续生成</span></span><br><span class="line">npm run release</span><br></pre></td></tr></table></figure>
+
+<p>会在我们项目根目录生成一个CHANGELOG.md文件，如下所示</p>
+<p><img src="/images/2020-12/git-commit-5.png"></p>
+<h1 id="项目中如何使用"><a href="#项目中如何使用" class="headerlink" title="项目中如何使用"></a>项目中如何使用</h1><hr>
+<p>如果我们已经完成了上述操作，会发现我们最终会得到一个package.json，我们只需要把package.json / commitlint.config.js提交版本库即可</p>
+<p>把node_modules 和 package-lock.json都加入git忽略文件</p>
+<p>下次再新clone项目后，直接在项目根目录运行npm install即可完成上述所有步骤</p>
+<p>PS：NPM有时候国外镜像不稳定，可以切换淘宝镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/12/02/%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%88%86%E4%BA%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1201,119 +1339,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2020/02/09/%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89%20%E2%80%94%E2%80%94%20%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="天行者YANG">
-      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天行者YANG - BLOG">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/09/%E5%88%9B%E4%B8%9A%E5%85%AC%E5%8F%B8%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89%20%E2%80%94%E2%80%94%20%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87/" class="post-title-link" itemprop="url">创业公司基础设施如何搭建（一） —— 前期准备</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-09 10:55:02" itemprop="dateCreated datePublished" datetime="2020-02-09T10:55:02+08:00">2020-02-09</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="面临的问题"><a href="#面临的问题" class="headerlink" title="面临的问题"></a>面临的问题</h1><h2 id="创业公司一般面临下面几个问题"><a href="#创业公司一般面临下面几个问题" class="headerlink" title="创业公司一般面临下面几个问题"></a>创业公司一般面临下面几个问题</h2><ul>
-<li>钱不多，省着花</li>
-<li>一般研发人员，不具备此类知识体系或者所知不多</li>
-</ul>
-<h2 id="需求一直存在"><a href="#需求一直存在" class="headerlink" title="需求一直存在"></a>需求一直存在</h2><p>虽然，存在一些问题，但是随着业务发展，人员增多，此类问题会暴露的越发明显，产品技术团队的高效工作，其实是建立在合适、安全、方便的基础设施之上的</p>
-<h1 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h1><h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ul>
-<li>Dell服务器1台（约2 - 3w RMB）</li>
-<li>NAS存储，主要做重要系统数据备份（可选）</li>
-<li>交换机（不做过多介绍）</li>
-<li>整理办公和研发需求</li>
-</ul>
-<p>下面是选择的服务器，这个配置，基本可以满足100人左右企业的日常办公和部分研发测试需求</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>T640 塔式服务器</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>CPU</td>
-<td>Intel(R) Xeon(R) CPU 银牌4110*2</td>
-</tr>
-<tr>
-<td>MEM</td>
-<td>16G*6</td>
-</tr>
-<tr>
-<td>硬盘</td>
-<td>4T*3 raid5 + 256固态系统盘</td>
-</tr>
-</tbody></table>
-<h2 id="基础设施包含什么"><a href="#基础设施包含什么" class="headerlink" title="基础设施包含什么"></a>基础设施包含什么</h2><ul>
-<li>虚拟化的平台工具：我这里选择的是Vmware，好处毋庸置疑，但是收费，我这里之所以选，是因为，有一些历史原因（你懂得，有需求可以单独找我），如果不用，可以考虑OpenStack替代</li>
-<li>容器化：Docker是不二之选，这个根据企业自己的需求来看，我个人觉得，初期可以不用容器化，但是，如果有相关维护人员，可以选择Docker Swam或者K8s进行容器化管理</li>
-<li>根据需要选择工具：一般企业需要解决的是，知识库、项目和流程管理系统、资产管理系统、统一账户体系、代码库、工件库、如何在外安全上网、内部域名管理、如何安全登录服务器这些需求、数据安全和备份</li>
-</ul>
-<h1 id="基础设施搭建示意图"><a href="#基础设施搭建示意图" class="headerlink" title="基础设施搭建示意图"></a>基础设施搭建示意图</h1><p>基于VMware ESXI &amp; vSphere</p>
-<h2 id="层级示意"><a href="#层级示意" class="headerlink" title="层级示意"></a>层级示意</h2><p><img src="/images/2020-02/ops-arch.jpg"></p>
-<h2 id="架构示意"><a href="#架构示意" class="headerlink" title="架构示意"></a>架构示意</h2><p><img src="/images/2020-02/ops-layer.jpg"></p>
-<h1 id="我用到的工具"><a href="#我用到的工具" class="headerlink" title="我用到的工具"></a>我用到的工具</h1><p><img src="/images/2020-02/arch-layer.jpg"></p>
-<p>后续，会陆续介绍下，我在搭建的时候，相关工具的搭建流程和使用方式</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-
-  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
-    <span>微信关注我，及时接收最新技术文章</span>
-  </div>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1385,7 +1410,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

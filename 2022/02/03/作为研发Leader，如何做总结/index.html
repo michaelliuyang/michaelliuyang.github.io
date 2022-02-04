@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PXW8DRLC1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3PXW8DRLC1');
+</script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"skywalkerai.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="为什么要总结  行有不得，反求诸己。 —— 出自《孟子》  学会从自身寻找原因，可以帮助我们成为更好的人。 其实，无论是个人还是团队，在年底进行一些有针对性的总结（建议是数据化呈现），对于找到自身问题，提高和改进，还是有挺大帮助的。 切忌，不是为了总结而总结。应该学会从客观的事实（数据化是个不错的手段），寻找问题的发生原因，从而尝试做改变，去改善问题。 准备工作  💡 思考的框架 优于 思考的内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="作为研发Leader，如何做总结">
+<meta property="og:url" content="https://skywalkerai.com/2022/02/03/%E4%BD%9C%E4%B8%BA%E7%A0%94%E5%8F%91Leader%EF%BC%8C%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="天行者YANG - BLOG">
+<meta property="og:description" content="为什么要总结  行有不得，反求诸己。 —— 出自《孟子》  学会从自身寻找原因，可以帮助我们成为更好的人。 其实，无论是个人还是团队，在年底进行一些有针对性的总结（建议是数据化呈现），对于找到自身问题，提高和改进，还是有挺大帮助的。 切忌，不是为了总结而总结。应该学会从客观的事实（数据化是个不错的手段），寻找问题的发生原因，从而尝试做改变，去改善问题。 准备工作  💡 思考的框架 优于 思考的内">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/1.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/2.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/3.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/4.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/5.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/6.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/7.png">
+<meta property="og:image" content="https://skywalkerai.com/images/2022-02/8.png">
+<meta property="article:published_time" content="2022-02-02T16:12:54.000Z">
+<meta property="article:modified_time" content="2022-02-04T02:27:30.063Z">
+<meta property="article:author" content="天行者YANG">
+<meta property="article:tag" content="技术管理">
+<meta property="article:tag" content="总结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://skywalkerai.com/images/2022-02/1.png">
+
+<link rel="canonical" href="https://skywalkerai.com/2022/02/03/%E4%BD%9C%E4%B8%BA%E7%A0%94%E5%8F%91Leader%EF%BC%8C%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>作为研发Leader，如何做总结 | 天行者YANG - BLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">天行者YANG - BLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>全部文章</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://skywalkerai.com/2022/02/03/%E4%BD%9C%E4%B8%BA%E7%A0%94%E5%8F%91Leader%EF%BC%8C%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="天行者YANG">
+      <meta itemprop="description" content="技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天行者YANG - BLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          作为研发Leader，如何做总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-03 00:12:54" itemprop="dateCreated datePublished" datetime="2022-02-03T00:12:54+08:00">2022-02-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">技术管理</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="为什么要总结"><a href="#为什么要总结" class="headerlink" title="为什么要总结"></a>为什么要总结</h1><hr>
+<blockquote>
+<p>行有不得，反求诸己。 —— 出自《孟子》</p>
+</blockquote>
+<p>学会从自身寻找原因，可以帮助我们成为更好的人。</p>
+<p>其实，无论是个人还是团队，在年底进行一些有针对性的总结（建议是数据化呈现），对于找到自身问题，提高和改进，还是有挺大帮助的。</p>
+<p>切忌，不是为了总结而总结。应该学会从客观的事实（数据化是个不错的手段），寻找问题的发生原因，从而尝试做改变，去改善问题。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><hr>
+<blockquote>
+<p>💡 思考的框架 优于 思考的内容</p>
+</blockquote>
+<h2 id="避免流水账"><a href="#避免流水账" class="headerlink" title="避免流水账"></a>避免流水账</h2><p>作为研发Leader，在做总结时，我会首先避免流水账，不要先思考这1年来，我们做了什么，这样很容易陷入到细节中。</p>
+<h2 id="思考：我们需要什么样子的团队"><a href="#思考：我们需要什么样子的团队" class="headerlink" title="思考：我们需要什么样子的团队"></a>思考：我们需要什么样子的团队</h2><p>小时候，经常被问到，你想成为什么样的人。其实，管理团队也是一样的逻辑，先思考「我们需要什么样的团队」。在2021年初，我们团队定下的指导思想是「成为专业的团队」，所以，在接下来的1年时间里，我们都在遵循这个指导思想。</p>
+<h2 id="建设团队的指导思想"><a href="#建设团队的指导思想" class="headerlink" title="建设团队的指导思想"></a>建设团队的指导思想</h2><p><img src="/images/2022-02/1.png"></p>
+<h2 id="抽象团队的工作分类"><a href="#抽象团队的工作分类" class="headerlink" title="抽象团队的工作分类"></a>抽象团队的工作分类</h2><p><img src="/images/2022-02/2.png"></p>
+<h1 id="我的思路"><a href="#我的思路" class="headerlink" title="我的思路"></a>我的思路</h1><hr>
+<h2 id="做了什么"><a href="#做了什么" class="headerlink" title="做了什么"></a>做了什么</h2><p>建议按照工作分类进行重点事项的陈述</p>
+<h2 id="做到了什么，没做到什么"><a href="#做到了什么，没做到什么" class="headerlink" title="做到了什么，没做到什么"></a>做到了什么，没做到什么</h2><p>从做的事情，客观的数据反馈，和年初的目标，进行综合对比，进行分析，找到问题原因，为来年提供改善思路</p>
+<h2 id="分享自己或团队其他人的做事心得（方法）"><a href="#分享自己或团队其他人的做事心得（方法）" class="headerlink" title="分享自己或团队其他人的做事心得（方法）"></a>分享自己或团队其他人的做事心得（方法）</h2><p>意在提高团队认知，授人以鱼不如授人以渔</p>
+<h1 id="我的2021总结（部分）"><a href="#我的2021总结（部分）" class="headerlink" title="我的2021总结（部分）"></a>我的2021总结（部分）</h1><hr>
+<h2 id="做了什么-1"><a href="#做了什么-1" class="headerlink" title="做了什么"></a>做了什么</h2><ul>
+<li><p>Iteration 迭代<br><img src="/images/2022-02/3.png"><br><img src="/images/2022-02/4.png"><br><img src="/images/2022-02/5.png"></p>
+</li>
+<li><p>Arch 架构</p>
+<ul>
+<li>Backend<ul>
+<li>涉及内容较敏感</li>
+</ul>
+</li>
+<li>Frontend<ul>
+<li>涉及内容较敏感</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Assets 技术资产</p>
+<ul>
+<li>工具<br>  <img src="/images/2022-02/6.png"></li>
+<li>服务器和环境<br>  <img src="/images/2022-02/7.png"></li>
+<li>代码规划&amp;设计<ul>
+<li>涉及内容较敏感</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>团队</p>
+<ul>
+<li>架构<ul>
+<li>涉及内容较敏感</li>
+</ul>
+</li>
+<li>激励<ul>
+<li>涉及内容较敏感</li>
+</ul>
+</li>
+<li>活动<ul>
+<li>涉及内容较敏感</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="做到了什么，没做到什么-1"><a href="#做到了什么，没做到什么-1" class="headerlink" title="做到了什么，没做到什么"></a>做到了什么，没做到什么</h2><ul>
+<li>涉及内容较敏感</li>
+</ul>
+<h2 id="分享自己或团队其他人的做事心得（方法）-1"><a href="#分享自己或团队其他人的做事心得（方法）-1" class="headerlink" title="分享自己或团队其他人的做事心得（方法）"></a>分享自己或团队其他人的做事心得（方法）</h2><p><img src="/images/2022-02/8.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86/" rel="tag"># 技术管理</a>
+              <a href="/tags/%E6%80%BB%E7%BB%93/" rel="tag"># 总结</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/09/%E5%A6%82%E4%BD%95%E6%95%B0%E6%8D%AE%E5%8C%96%E8%AF%84%E4%BB%B7%E3%80%8C%E8%BF%AD%E4%BB%A3%E8%B4%A8%E9%87%8F%E3%80%8D/" rel="prev" title="如何数据化评价「迭代质量」">
+      <i class="fa fa-chevron-left"></i> 如何数据化评价「迭代质量」
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <img src="/images/wechat_qrcode.jpg" itemprop="contentUrl">
+    <span>微信关注我，及时接收最新技术文章</span>
+  </div>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">为什么要总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E6%B5%81%E6%B0%B4%E8%B4%A6"><span class="nav-number">2.1.</span> <span class="nav-text">避免流水账</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%80%83%EF%BC%9A%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%E7%9A%84%E5%9B%A2%E9%98%9F"><span class="nav-number">2.2.</span> <span class="nav-text">思考：我们需要什么样子的团队</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AE%BE%E5%9B%A2%E9%98%9F%E7%9A%84%E6%8C%87%E5%AF%BC%E6%80%9D%E6%83%B3"><span class="nav-number">2.3.</span> <span class="nav-text">建设团队的指导思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E5%9B%A2%E9%98%9F%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%88%86%E7%B1%BB"><span class="nav-number">2.4.</span> <span class="nav-text">抽象团队的工作分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">我的思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">3.1.</span> <span class="nav-text">做了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E5%88%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%8C%E6%B2%A1%E5%81%9A%E5%88%B0%E4%BB%80%E4%B9%88"><span class="nav-number">3.2.</span> <span class="nav-text">做到了什么，没做到什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E4%BA%AB%E8%87%AA%E5%B7%B1%E6%88%96%E5%9B%A2%E9%98%9F%E5%85%B6%E4%BB%96%E4%BA%BA%E7%9A%84%E5%81%9A%E4%BA%8B%E5%BF%83%E5%BE%97%EF%BC%88%E6%96%B9%E6%B3%95%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">分享自己或团队其他人的做事心得（方法）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E7%9A%842021%E6%80%BB%E7%BB%93%EF%BC%88%E9%83%A8%E5%88%86%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">我的2021总结（部分）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88-1"><span class="nav-number">4.1.</span> <span class="nav-text">做了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E5%88%B0%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%8C%E6%B2%A1%E5%81%9A%E5%88%B0%E4%BB%80%E4%B9%88-1"><span class="nav-number">4.2.</span> <span class="nav-text">做到了什么，没做到什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E4%BA%AB%E8%87%AA%E5%B7%B1%E6%88%96%E5%9B%A2%E9%98%9F%E5%85%B6%E4%BB%96%E4%BA%BA%E7%9A%84%E5%81%9A%E4%BA%8B%E5%BF%83%E5%BE%97%EF%BC%88%E6%96%B9%E6%B3%95%EF%BC%89-1"><span class="nav-number">4.3.</span> <span class="nav-text">分享自己或团队其他人的做事心得（方法）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="天行者YANG"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">天行者YANG</p>
+  <div class="site-description" itemprop="description">技术团队管理者、10年以上互联网行业老兵，学会从本质出发的思考方式，希望通过写作，更好思考技术人生、分享一只老鸟的经验。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://www.jianshu.com/u/ffbe5419f359" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;ffbe5419f359" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>简书</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://toutiao.io/subjects/199751" title="开发者头条 → https:&#x2F;&#x2F;toutiao.io&#x2F;subjects&#x2F;199751" rel="noopener" target="_blank"><i class="fas fa-book-open fa-fw"></i>开发者头条</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:michaelliu99@sina.com" title="E-Mail → mailto:michaelliu99@sina.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">天行者YANG</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
